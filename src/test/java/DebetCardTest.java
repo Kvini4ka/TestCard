@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DebetCardTest {
@@ -42,7 +43,7 @@ public class DebetCardTest {
 
     @Test
     void shouldTestFormCorrectData() {
-        driver.get("http://localhost:9999");
+      //  driver.get("http://localhost:9999");
         List<WebElement> elements = driver.findElements(By.className("input__control"));
         elements.get(0).sendKeys("Белова Антонина");
         elements.get(1).sendKeys("+79130000000");
@@ -55,7 +56,7 @@ public class DebetCardTest {
 
     @Test
     void shouldTestInCorrectName() {
-        driver.get("http://localhost:9999");
+     //   driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Ivanov Ivan");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+791300000000");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
@@ -66,7 +67,7 @@ public class DebetCardTest {
 
     @Test
     void shouldTestInCorrectPhone() {
-        driver.get("http://localhost:9999");
+    //    driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Федорова Василиса");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("79120");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
@@ -77,7 +78,7 @@ public class DebetCardTest {
 
     @Test
     void shouldTestEmptyName() {
-        driver.get("http://localhost:9999");
+    //    driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+791300000000");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.className("button__content")).click();
@@ -87,7 +88,7 @@ public class DebetCardTest {
 
     @Test
     void shouldTestEmptyPhone() {
-        driver.get("http://localhost:9999");
+     //   driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров Николай");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.className("button__content")).click();
@@ -97,11 +98,23 @@ public class DebetCardTest {
 
     @Test
     void shouldTestEmptyDate() {
-        driver.get("http://localhost:9999");
+     //   driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.className("button__content")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id=name].input_invalid .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
+    }
+
+    @Test
+    void shouldCardFormWithoutCheckbox() {
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иванов Иван");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79998887744");
+        driver.findElement(By.className("button")).click();
+
+        String expected = "Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй";
+        String actual = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid .checkbox__text")).getText().trim();
+
+        assertEquals(expected, actual);
     }
 
 
